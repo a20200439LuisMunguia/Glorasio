@@ -19,7 +19,9 @@ sub.on('connect', () => {
     sub.subscribe('topic test')
 })
 
-sub.on('message', (topic, message) => {
+
+//Sensor ultrasonico
+/*sub.on('message', (topic, message) => {
     message = message.toString()
     message = message.split(' ')
     message = parseInt(message[1])
@@ -29,6 +31,36 @@ sub.on('message', (topic, message) => {
         {cm: message},
         (err, rows) => {
             if(!err) console.log('Data saved');
+        }
+    )
+})
+*/
+
+//DHT11
+sub.on('message', (topic, message) => {
+    message = message.toString()
+    message = message.split(' ')
+    message = parseInt(message[1])
+    console.log(message)
+    db.query(
+        'insert into dhthum set ?', 
+        {humedad: message},
+        (err, rows) => {
+            if(!err) console.log('Data 1 saved');
+        }
+    )
+})
+
+sub.on('message', (topic, message) => {
+    message = message.toString()
+    message = message.split(' ')
+    message = parseInt(message[2])
+    console.log(message)
+    db.query(
+        'insert into dhttemp set ?',
+        {temp: message},
+        (err, rows) => {
+            if(!err) console.log('data 2 saved!')
         }
     )
 })
