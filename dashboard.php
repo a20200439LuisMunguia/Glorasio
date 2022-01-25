@@ -1,12 +1,21 @@
 <?php
 require_once('config.php');
 
-$sql = "SELECT * FROM ultrasonico ORDER BY id DESC limit 1";
-$result = $conn->query($sql);
-$arr_users = [];
-if ($result) {
-$arr_users = $result->fetch_all(MYSQLI_ASSOC);
+$sqlh = "SELECT *  FROM dhthum ORDER BY id DESC limit 1";
+$resulth = $conn->query($sqlh);
+$arr_usersh = [];
+if ($resulth->num_rows > 0) {
+$arr_usersh = $resulth->fetch_all(MYSQLI_ASSOC);
 }
+
+
+$sqlt = "SELECT *  FROM dhttemp ORDER BY id DESC limit 1";
+$resultt = $conn->query($sqlt);
+$arr_userst = [];
+if ($resultt->num_rows > 0) {
+$arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
+}
+
 ?>
 
 
@@ -97,32 +106,54 @@ $arr_users = $result->fetch_all(MYSQLI_ASSOC);
   <section class="home-section">
     <div class="home-content">
       <div class="overview-boxes">
+
         <div class="box">
           <div class="right-side">
             <div class="box-topic">Análisis de Sensor Ultrasonico - Zona I</div>
-            <div class="number"> <?php if(!empty($arr_users)) { ?>
-        <?php foreach($arr_users as $user) { ?>
-        <tr>
-        <td><?php echo $user['cm']; ?></td>
-        </tr>
-    <?php } ?>
-    <?php } ?>
-</div>
+            <div class="number"><!--<?php if(!empty($arr_users)) { ?>
+              <?php foreach($arr_users as $user) { ?>
+                <tr>
+                  <td><?php echo $user['cm']; ?></td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+              -->
+            </div>
+
             <div class="indicator">  
             Centimetros         
             </div>
+
+            
           </div>
           <i class='bx bx-info-square cart' onclick="alert('Estoy en Zona I');"></i>
         </div>
+
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Análisis de Sensor - Zona II</div>
-            <div class="number">35°,25%</div>
+            <div class="box-topic">Datos de humedad y temperatura ambiental</div>
+            <div class="number">
+            <?php if(!empty($arr_usersh)) { ?>
+              <?php foreach($arr_usersh as $userh) { ?>
+                <tr>
+                  <td><?php echo $userh['humedad']; ?>%</td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+               |
+                <?php if(!empty($arr_userst)) { ?>
+              <?php foreach($arr_userst as $usert) { ?>
+                <tr>
+                  <td><?php echo $usert['temp']; ?>°</td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+            </div>
             <div class="indicator">  
-            Temperatura - Humedad         
+            Humedad - Temperatura         
             </div>
           </div>
-          <i class='bx bx-info-square cart' onclick="alert('Estoy en Zona II');"></i>
+          <i class='bx bx-info-square cart' onclick="alert('Sensor de humedad y temperatura');"></i>
         </div>
         <div class="box">
           <div class="right-side">
@@ -134,6 +165,7 @@ $arr_users = $result->fetch_all(MYSQLI_ASSOC);
           </div>
           <i class='bx bx-info-square cart' onclick="alert('Estoy en Zona III');"></i>
         </div>
+
         <div class="box">
           <div class="right-side">
             <div class="box-topic">Análisis de Sensor - Zona IV</div>
