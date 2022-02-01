@@ -37,7 +37,7 @@ sub.on('connect', () => {
 */
 
 //DHT11
-sub.on('message', (topic, message) => {
+/*sub.on('message', (topic, message) => {
     message = message.toString()
     message = message.split(' ')
     message = parseInt(message[1])
@@ -61,6 +61,22 @@ sub.on('message', (topic, message) => {
         {temp: message},
         (err, rows) => {
             if(!err) console.log('data 2 saved!')
+        }
+    )
+})
+*/
+
+//Sensor ir
+sub.on('message', (topic, message) => {
+    message = message.toString()
+    message = message.split(' ')
+    message = parseInt(message[0])
+    console.log(message)
+    db.query(
+        'insert into infrarojo set ?',
+        {dato: message},
+        (err, rows) => {
+            if(!err) console.log('status saved!')
         }
     )
 })
