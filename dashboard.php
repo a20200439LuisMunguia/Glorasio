@@ -1,6 +1,7 @@
 <?php
 require_once('config.php');
 
+/*/
 $sqlh = "SELECT *  FROM dhthum ORDER BY id DESC limit 1";
 $resulth = $conn->query($sqlh);
 $arr_usersh = [];
@@ -15,6 +16,15 @@ $arr_userst = [];
 if ($resultt->num_rows > 0) {
 $arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
 }
+/*/
+
+$sqlir = "SELECT count(*) as contadorPersonas FROM `infrarojo` WHERE dato = 0;";
+$resultir = $conn->query($sqlir);
+$arr_usersir = [];
+if ($resultir->num_rows > 0) {
+$arr_usersir = $resultir->fetch_all(MYSQLI_ASSOC);
+}
+
 
 ?>
 
@@ -133,7 +143,7 @@ $arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
           <div class="right-side">
             <div class="box-topic">Datos de humedad y temperatura ambiental</div>
             <div class="number">
-            <?php if(!empty($arr_usersh)) { ?>
+            <!--<?php if(!empty($arr_usersh)) { ?>
               <?php foreach($arr_usersh as $userh) { ?>
                 <tr>
                   <td><?php echo $userh['humedad']; ?>%</td>
@@ -148,6 +158,7 @@ $arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
                 </tr>
                 <?php } ?>
                 <?php } ?>
+              -->
             </div>
             <div class="indicator">  
             Humedad - Temperatura         
@@ -155,12 +166,20 @@ $arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
           </div>
           <i class='bx bx-info-square cart' onclick="alert('Sensor de humedad y temperatura');"></i>
         </div>
+
         <div class="box">
           <div class="right-side">
-            <div class="box-topic">Análisis de Sensor - Zona III</div>
-            <div class="number">35°,25%</div>
+            <div class="box-topic">Registro de entrada</div>
+            <div class="number"><?php if(!empty($arr_usersir)) { ?>
+              <?php foreach($arr_usersir as $userir) { ?>
+                <tr>
+                  <td><?php echo $userir['contadorPersonas']; ?></td>
+                </tr>
+                <?php } ?>
+                <?php } ?>
+              </div>
             <div class="indicator">  
-            Temperatura - Humedad         
+            Personas ingresadas        
             </div>
           </div>
           <i class='bx bx-info-square cart' onclick="alert('Estoy en Zona III');"></i>
@@ -195,7 +214,7 @@ $arr_userst = $resultt->fetch_all(MYSQLI_ASSOC);
 function actualizar(){
   location.reload(true);
 }
-  setInterval("actualizar()",5000);
+  setInterval("actualizar()",2500);
 </script>
 <script>
     $(document).ready(function () {
